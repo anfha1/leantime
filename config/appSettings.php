@@ -71,6 +71,8 @@ class appSettings {
             $protocol = "http://";
         }
 
+        $protocol = "https://";
+
         $domainName = $_SERVER['HTTP_HOST'].'';
         return $protocol.$domainName;
 
