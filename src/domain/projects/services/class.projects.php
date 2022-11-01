@@ -200,7 +200,7 @@ namespace leantime\domain\services {
                         'headers' => [ 'Content-Type' => 'application/json' ]
                     ]);
                 }catch (\Exception $e) {
-                    error_log($e);
+                    error_log($e->getMessage());
                 }
 
             }
@@ -261,7 +261,7 @@ namespace leantime\domain\services {
                           'headers' => [ 'Content-Type' => 'application/json' ]
                       ]);
                 }catch (\Exception $e) {
-                      error_log($e);
+                      error_log($e->getMessage());
                 }
               }
             }
@@ -284,7 +284,7 @@ namespace leantime\domain\services {
                         'body' => $data_string
                     ]);
                 }catch (\Exception $e) {
-                    error_log($e);
+                    error_log($e->getMessage());
                 }
 
             }
@@ -329,7 +329,7 @@ namespace leantime\domain\services {
                     ]);
 
                 }catch (\Exception $e) {
-                    error_log($e);
+                    error_log($e->getMessage());
                 }
 
             }

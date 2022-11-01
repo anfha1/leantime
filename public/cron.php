@@ -9,14 +9,12 @@
 //        + push here a json structure with information so that javascript call does not come back too often
 //        if there are a lot of people connected
 
-$fp  = '';
+// Get the semaphore
+$fp = fopen("../resources/logs/cronlock.txt", "w+");
 
 // If semaphore can not be created, exit
-if(is_writable("../resources/logs/")) {
-    $fp = fopen("../resources/logs/cronlock.txt", "w+");
-}else{
-    error_log("Can't write to logs directory. Cron won't be executed");
-    exit();
+if (!flock($fp, LOCK_EX)) {
+    exit;
 }
 
 define('RESTRICTED', FALSE);
@@ -57,7 +55,7 @@ if ($timeSince < 300)
 $audit->storeEvent("cron", "Cron started");
 
 // TODO  check if using the session class in cron is a better idea
-//session_start();
+session_start();
 
 if(isset($config->appUrl) && $config->appUrl != ""){
     define('BASE_URL', $config->appUrl);

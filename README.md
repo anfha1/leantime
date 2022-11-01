@@ -15,7 +15,7 @@ Leantime is a lean open source project management system for startups and innova
 
 ## Updates ##
 
-Just released! Leantime is now on 2.2.10. 
+Just released! Leantime is now on 2.2.9. 
 
 New features included in this release: 
 *  Document Manager & Wiki Option (with Google Docs import) 
@@ -115,9 +115,6 @@ Once started you can go to `<yourdomain.com>/install` and run the installation s
 * Make sure to take a backup of your database and files
 * Replace all files in your directory with the updated version
 * If there were any database changes, the system will redirect your to `<yourdomain.com>/update`
-
-## LICENSE Exceptions ##
-This file forms part of the Leantime Software for which the following exception is added: Plugins within the `/src/plugins` directory which merely make function calls to the Leantime Software, and for that purpose include it by reference shall not be considered modifications of the software.
 
 ### Support ###
 * Documentation [https://docs.leantime.io](https://docs.leantime.io)

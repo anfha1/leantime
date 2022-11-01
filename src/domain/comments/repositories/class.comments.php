@@ -34,7 +34,6 @@ namespace leantime\domain\repositories {
 					comment.moduleId, 
 					comment.userId, 
 					comment.commentParent,
-                    comment.status,
 					user.firstname, 
 					user.lastname,
 					user.profileId 
@@ -120,7 +119,7 @@ namespace leantime\domain\repositories {
         {
 
             $sql = "SELECT 
-					comment.id, comment.text, comment.date, comment.moduleId, comment.userId, comment.commentParent, comment.status
+					comment.id, comment.text, comment.date, comment.moduleId, comment.userId, comment.commentParent,
 					user.firstname, user.lastname  
 				FROM zp_comment as comment
 				INNER JOIN zp_user as user ON comment.userId = user.id
@@ -137,8 +136,8 @@ namespace leantime\domain\repositories {
         {
 
             $sql = "INSERT INTO zp_comment (
-			text, userId, date, moduleId, module, commentParent, status
-		) VALUES (:text, :userId, :date, :moduleId, :module, :commentParent, :status)";
+			text, userId, date, moduleId, module, commentParent
+		) VALUES (:text, :userId, :date, :moduleId, :module, :commentParent)";
 
             $stmn = $this->db->database->prepare($sql);
 
@@ -148,7 +147,6 @@ namespace leantime\domain\repositories {
             $stmn->bindValue(':text', $values['text'], PDO::PARAM_STR);
             $stmn->bindValue(':module', $module, PDO::PARAM_STR);
             $stmn->bindValue(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-            $stmn->bindValue(':status',  $values['status'] ?? '', PDO::PARAM_STR);
 
             $result = $stmn->execute();
             $stmn->closeCursor();

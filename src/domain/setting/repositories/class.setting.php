@@ -3,7 +3,8 @@
 namespace leantime\domain\repositories {
 
     use leantime\core;
-    use PDO;
+    use pdo;
+    use PDOException;
 
     class setting
     {
@@ -61,15 +62,16 @@ namespace leantime\domain\repositories {
 
             $sql = "INSERT INTO zp_settings (`key`, `value`)
 				VALUES (:key, :value) ON DUPLICATE KEY UPDATE
-				  `value` = :valueUpdate";
+				  `value` = :value";
 
             $stmn = $this->db->database->prepare($sql);
             $stmn->bindvalue(':key', $type, PDO::PARAM_STR);
             $stmn->bindvalue(':value', $value, PDO::PARAM_STR);
-            $stmn->bindvalue(':valueUpdate', $value, PDO::PARAM_STR);
 
-            $stmn->execute();
+            $return = $stmn->execute();
             $stmn->closeCursor();
+
+            return $return;
 
 
         }

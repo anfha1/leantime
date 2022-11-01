@@ -58,6 +58,9 @@ namespace leantime\core {
 
         public $mainContent = '';
 
+        private $validStatusCodes = array("100","101","200","201","202","203","204","205","206","300","301","302","303","304","305","306","307","400","401","402","403","404","405","406","407","408","409","410","411","412","413","414","415","416","417","500","501","502","503","504","505");
+
+
         public $picture = array(
             'calendar'    => 'fa-calendar',
             'clients'     => 'fa-people-group',
@@ -120,7 +123,7 @@ namespace leantime\core {
          * @param  $template
          * @return void
          */
-        public function display($template, $layout = "app")
+        public function display($template, $status = 200, $layout = "app")
         {
 
             //These variables are available in the template
@@ -132,6 +135,8 @@ namespace leantime\core {
             $language = $this->language;
 
             $this->template = $template;
+
+            //http_response_code($this->validStatusCodes[$status] ?? 200);
 
             //Load Layout file
             ob_start();
@@ -154,17 +159,13 @@ namespace leantime\core {
 
             $module = $this->frontcontroller::getModuleName($template);
 
-            $pluginPath = ROOT.'/../src/plugins/' . $module . '/templates/' . $action.'.tpl.php';
-            $domainPath = ROOT.'/../src/domain/' . $module . '/templates/' . $action.'.tpl.php';
+            $strTemplate = ROOT.'/../src/domain/' . $module . '/templates/' . $action.'.tpl.php';
 
-            //Try plugin folder first for overrides
-            if(file_exists($pluginPath)) {
-                require_once $pluginPath;
-            }else if(file_exists($domainPath)) {
-                require_once $domainPath;
-            }else{
+            if ((!file_exists($strTemplate)) || !is_readable($strTemplate)) {
                 throw new \Exception($this->__("notifications.no_template"));
             }
+
+            require_once $strTemplate;
 
             $content = ob_get_clean();
 
@@ -200,10 +201,10 @@ namespace leantime\core {
          * @param  $template
          * @return void
          */
-        public function displayPartial($template)
+        public function displayPartial($template, $statusCode = 200)
         {
 
-            $this->display($template, 'blank');
+            $this->display($template, $statusCode, 'blank');
 
         }
 
@@ -351,7 +352,7 @@ namespace leantime\core {
         public function e($content): void
         {
 
-            $content = $this->convertRelativePaths($content);
+
             $escaped = $this->escape($content);
 
             echo $escaped;
@@ -362,7 +363,6 @@ namespace leantime\core {
         {
 
             if(!is_null($content)) {
-                $content = $this->convertRelativePaths($content);
                 return htmlentities($content);
             }
 
@@ -373,7 +373,6 @@ namespace leantime\core {
         public function escapeMinimal($content): string
         {
 
-            $content = $this->convertRelativePaths($content);
             $config = array(
                 'safe'=>1,
                 'style_pass'=>1,
@@ -426,7 +425,7 @@ namespace leantime\core {
             $tags = array();
             $isUtf8 = true;
             $truncate = "";
-            $html = $this->convertRelativePaths($html);
+
             // For UTF-8, we need to count multibyte sequences as one character.
             $re = $isUtf8
                 ? '{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;|[\x80-\xFF][\x80-\xBF]*}'
@@ -498,34 +497,6 @@ namespace leantime\core {
             }
 
             return $truncate;
-        }
-
-        public function convertRelativePaths($text)
-        {
-            if(is_null($text)){
-                return $text;
-            }
-
-            $base = BASE_URL;
-
-          // base url needs trailing /
-          if (substr($base, -1, 1) != "/")
-            $base .= "/";
-
-          // Replace links
-            $pattern = "/<a([^>]*) " .
-                "href=\"([^http|ftp|https|mailto|#][^\"]*)\"/";
-          $replace = "<a\${1} href=\"" . $base . "\${2}\"";
-          $text = preg_replace($pattern, $replace, $text);
-          // Replace images
-
-            $pattern = "/<img([^>]*) " .
-                       "src=\"([^http|ftp|https][^\"]*)\"/";
-          $replace = "<img\${1} src=\"" . $base . "\${2}\"";
-
-          $text = preg_replace($pattern, $replace, $text);
-          // Done
-          return $text;
         }
 
         public function getModulePicture()

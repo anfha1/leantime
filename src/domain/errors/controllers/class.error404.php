@@ -12,7 +12,6 @@ namespace leantime\domain\controllers {
 
             $tpl = new core\template();
 
-            core\frontcontroller::setResponseCode(404);
             $tpl->display('errors.error404');
         }
     }

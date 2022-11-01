@@ -45,9 +45,9 @@ namespace leantime\domain\controllers {
         {
             if((isset($_GET["id"]) === true && $this->authService->validateResetLink($_GET["id"]))) {
 
-                $this->tpl->display('auth.resetPw','entry');
+                $this->tpl->display('auth.resetPw', 200, 'entry');
             }else{
-                $this->tpl->display('auth.requestPwLink', 'entry');
+                $this->tpl->display('auth.requestPwLink', 200, 'entry');
             }
 
 

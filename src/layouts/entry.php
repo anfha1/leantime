@@ -15,10 +15,6 @@
 
 </div>
 
-            
-<style>
- .leantimeLogo { position: fixed; bottom: 10px; right: 10px; }
-</style>
 
 <div class="row " style="height:100%; width: 99%;">
     <div class="col-md-6 hidden-phone regLeft">
@@ -43,9 +39,6 @@
         </div>
 
     </div>
-	<div class="leantimeLogo">
-		<img style="height: 25px;" src="<?=BASE_URL ?>/config/images/logo-leantime.png">
-	</div>
 </div>
 
 <?php echo $this->frontcontroller->includeAction('general.pageBottom'); ?>
