@@ -9,20 +9,20 @@ class config
     /* General */
 
     public $sitename = 'Leantime';                        //Name of your site, can be changed later
-    public $language = 'en-US';                           //Default language
+    public $language = 'vi-VN';                           //Default language
     public $logoPath = '/images/logo.svg';                //Default logo path, can be changed later
     public $appUrl = '';                                  //Base URL, trailing slash not needed
     public $primarycolor = '#1b75bb';                     //Primary Theme color
     public $secondarycolor = '#81B1A8';                   //Secondary Theme Color
-    public $defaultTimezone = 'America/Los_Angeles';      //Set default timezone
+    public $defaultTimezone = 'Asia/Ho_Chi_Minh';      //Set default timezone
     public $debug = 0;                                    //Debug flag
 
 
     /* Database */
     public $dbHost = 'localhost';                         //Database host
-    public $dbUser = '';                                  //Database username
+    public $dbUser = 'root';                                  //Database username
     public $dbPassword = '';                              //Database password
-    public $dbDatabase = '';                              //Database name
+    public $dbDatabase = 'db_scrum';                              //Database name
     public $dbPort = '3306';                              //Database port
 
     /* Fileupload */
@@ -47,10 +47,12 @@ class config
     public $email = '';                                   //Return email address
     public $useSMTP = false;                              //Use SMTP? If set to false, the default php mail() function will be used
     public $smtpHosts = '';                               //SMTP host
+    public $smtpAuth = true;                              //SMTP use user/password authentication
     public $smtpUsername = '';                            //SMTP username
     public $smtpPassword = '';                            //SMTP password
     public $smtpAutoTLS = true;                           //SMTP Enable TLS encryption automatically if a server supports it
     public $smtpSecure = '';                              //SMTP Security protocol (usually one of: TLS, SSL, STARTTLS)
+    public $smtpSSLNoverify = false;                      //SMTP Allow insecure SSL: Don't verify certificate, accept self-signed, etc.
     public $smtpPort = '';                                //Port (usually one of 25, 465, 587, 2526)
 
     /*ldap default settings (can be changed in company settings) */
@@ -157,11 +159,13 @@ class config
         $this->useSMTP = $this->configEnvironmentHelper("LEAN_EMAIL_USE_SMTP", $this->useSMTP, "boolean");
         if ($this->useSMTP) {
             $this->smtpHosts = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_HOSTS", $this->smtpHosts);
+            $this->smtpAuth = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_AUTH", $this->smtpAuth, "boolean");
             $this->smtpUsername = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_USERNAME", $this->smtpUsername);
             $this->smtpPassword = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_PASSWORD", $this->smtpPassword);
             $this->smtpAutoTLS = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_AUTO_TLS", $this->smtpAutoTLS, "boolean");
             $this->smtpSecure = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_SECURE", $this->smtpSecure);
             $this->smtpPort = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_PORT", $this->smtpPort);
+            $this->smtpSSLNoverify = $this->configEnvironmentHelper("LEAN_EMAIL_SMTP_SSLNOVERIFY", $this->smtpSSLNoverify, "boolean");
         }
 
     /*ldap*/
